@@ -1,7 +1,7 @@
 <?php
 
 return [
-    '/' => 'controllers/home.php',
-    '/listings' => 'controllers/listings.php',
-    '404' => 'controllers/error/404.php'
+    '/' => 'App/controllers/home.php',
+    '/listings' => 'App/controllers/listings.php',
+    '404' => 'App/controllers/error/404.php'
 ];
