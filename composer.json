@@ -1,0 +1,16 @@
+{
+    "name": "mmr86/workopia-php",
+    "description": "Job listing application",
+    "authors": [
+        {
+            "name": "The Richard",
+            "email": "therichard@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "Framework/",
+            "App\\": "App/"
+        }
+    }
+}

@@ -1,5 +1,13 @@
 <?php
 
+namespace Framework;
+
+use PDO;
+// ova 3 sam dodao zato jer su mi bacali errore a ne zato jer je traversy to stavio, on ih je preskočio
+use PDOException;
+use PDOStatement;
+use Exception;
+
 class Database {
     public $conn;
 
