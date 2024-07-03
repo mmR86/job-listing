@@ -35,9 +35,11 @@ loadPartial('nav');
                 ><?= $listing->state ?></span
               >
             </li>
-            <li class="mb-2">
-              <strong>Tags:</strong> <span><?= $listing->tags ?></span>,
-            </li>
+            <?php if(!empty($listing->tags)) :?>
+              <li class="mb-2">
+                <strong>Tags:</strong> <?= $listing->tags ?>
+              </li>
+            <?php endif; ?>
           </ul>
         </div>
       </div>

@@ -58,7 +58,7 @@ class ListingController {
         //filtriramo special karaktere i druga sranja
         $newListingData = array_map('sanitize', $newListingData);
 
-        $requiredFields = ['title', 'description', 'email', 'city', 'state'];
+        $requiredFields = ['title', 'description', 'email', 'salary', 'city', 'state'];
 
         $errors = [];
 
@@ -69,16 +69,40 @@ class ListingController {
         }
         
         if(!empty($errors)) {
-            inspect($newListingData);
             //Reload view with errors
             loadView('listings/create', [
                 'errors' => $errors,
                 'listings' => $newListingData
             ]);
         } else {
-            inspect($newListingData);
-            //Submit Data
-            echo 'Success!';
+            //Submit data || we need to build dinamicaly what fields to insert, because we want only the ones that have data, u principu trebaju nam doslovno stringovi koji idu unutar SQL query-a
+            //what to insert INTO listings
+            $fields = [];
+
+            foreach($newListingData as $field => $value) {
+                //adding all entry fields, empty or not into fields array
+                $fields[] = $field;
+            }
+            // turning the fields array into comma separated list
+            $fields = implode(', ', $fields);
+
+            //creating placeholders
+            $values = [];
+
+            foreach($newListingData as $field => $value) {
+                //Convert empty strings to null
+                if($value === '') {
+                    $newListingData[$field] = null;
+                }
+                $values[] = ':' . $field;
+            }
+            $values = implode(', ', $values);
+
+            $query = "INSERT INTO listings ({$fields}) VALUES ({$values})";
+
+            $this->db->query($query, $newListingData);
+
+            redirect('/listings');
         }
     }
 }
