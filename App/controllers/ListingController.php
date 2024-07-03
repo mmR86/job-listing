@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Framework\Database;
+use App\Controllers\Validation;
 
 class ListingController {
     protected $db;
@@ -43,5 +44,41 @@ class ListingController {
         loadView('/listings/show', [
             'listing' => $listing
         ]);
+    }
+
+    public function store() {
+        $allowedFields = ['title', 'description', 'salary', 'tags', 'company', 'adress', 'city', 'state', 'phone', 'email', 'requirements', 'benefits'];
+
+        //usporedi key-eve od $_POST-a i flipnute key-eve od $allowedFiels-a, koji se podudaraju šibne ih u novi array a value ostane od prvog array-a, tj. ono što je ubačeno u formu
+        $newListingData = array_intersect_key($_POST, array_flip($allowedFields));
+
+        //hardkodano za sada zbog logiranja
+        $newListingData['user_id'] = 1;
+
+        //filtriramo special karaktere i druga sranja
+        $newListingData = array_map('sanitize', $newListingData);
+
+        $requiredFields = ['title', 'description', 'email', 'city', 'state'];
+
+        $errors = [];
+
+        foreach($requiredFields as $field) {
+            if(empty($newListingData[$field]) || !Validation::string($newListingData[$field])) {
+                $errors[$field] = ucfirst($field) . ' is Required!';
+            }
+        }
+        
+        if(!empty($errors)) {
+            inspect($newListingData);
+            //Reload view with errors
+            loadView('listings/create', [
+                'errors' => $errors,
+                'listings' => $newListingData
+            ]);
+        } else {
+            inspect($newListingData);
+            //Submit Data
+            echo 'Success!';
+        }
     }
 }

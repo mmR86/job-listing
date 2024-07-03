@@ -9,16 +9,22 @@ loadPartial('nav');
         <h2 class="text-4xl text-center font-bold mb-4">Create Job Listing</h2>
         <!-- <div class="message bg-red-100 p-3 my-3">This is an error message.</div> -->
         
-        <form method="POST">
+        <form method="POST" action="/listings">
           <h2 class="text-2xl font-bold mb-6 text-center text-gray-500">
             Job Info
           </h2>
+          <?php if(isset($errors)) : ?>
+            <?php foreach($errors as $error) :?>
+              <div class="message bg-red-100 p-3 my-3"><?= $error ?></div>
+            <?php endforeach ?>
+          <?php endif ?>
           <div class="mb-4">
             <input
               type="text"
               name="title"
               placeholder="Job Title"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['title'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -26,7 +32,7 @@ loadPartial('nav');
               name="description"
               placeholder="Job Description"
               class="w-full px-4 py-2 border rounded focus:outline-none"
-            ></textarea>
+            ><?= $listings['description'] ?? '' ?></textarea>
           </div>
           <div class="mb-4">
             <input
@@ -34,6 +40,16 @@ loadPartial('nav');
               name="salary"
               placeholder="Annual Salary"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['salary'] ?? '' ?>"
+            />
+          </div>
+          <div class="mb-4">
+            <input
+              type="text"
+              name="tags"
+              placeholder="Tags"
+              class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['tags'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -42,6 +58,7 @@ loadPartial('nav');
               name="requirements"
               placeholder="Requirements"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['requirements'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -50,6 +67,7 @@ loadPartial('nav');
               name="benefits"
               placeholder="Benefits"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['benefits'] ?? '' ?>"
             />
           </div>
           <h2 class="text-2xl font-bold mb-6 text-center text-gray-500">
@@ -61,6 +79,7 @@ loadPartial('nav');
               name="company"
               placeholder="Company Name"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['company'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -69,6 +88,7 @@ loadPartial('nav');
               name="address"
               placeholder="Address"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['adress'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -77,6 +97,7 @@ loadPartial('nav');
               name="city"
               placeholder="City"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['city'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -85,6 +106,7 @@ loadPartial('nav');
               name="state"
               placeholder="State"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['state'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -93,6 +115,7 @@ loadPartial('nav');
               name="phone"
               placeholder="Phone"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['phone'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -101,6 +124,7 @@ loadPartial('nav');
               name="email"
               placeholder="Email Address For Applications"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $listings['email'] ?? '' ?>"
             />
           </div>
           <button
