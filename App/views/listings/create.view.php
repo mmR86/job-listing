@@ -85,8 +85,8 @@ loadPartial('nav');
           <div class="mb-4">
             <input
               type="text"
-              name="address"
-              placeholder="Address"
+              name="adress"
+              placeholder="Adress"
               class="w-full px-4 py-2 border rounded focus:outline-none"
               value="<?= $listings['adress'] ?? '' ?>"
             />

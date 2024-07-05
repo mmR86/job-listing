@@ -102,7 +102,34 @@ class ListingController {
 
             $this->db->query($query, $newListingData);
 
+            //Set flash message
+            $_SESSION['success_message'] = 'Listing created succesfully!';
+
             redirect('/listings');
         }
+    }
+
+    public function destroy($params) {
+        $id = $params['id'];
+
+        $params = [
+            'id' => $id
+        ];
+
+        $listing = $this->db->query('SELECT * FROM listings WHERE id = :id', $params)->fetch();
+
+        if(!$listing) {
+            ErrorController::notFound('Listing not found!');
+            return;
+        }
+
+        $this->db->query('DELETE FROM listings WHERE id = :id', $params);
+
+        //Set flash message
+        $_SESSION['success_message'] = 'Listing deleted succesfully!';
+
+        redirect('/listings');
+
+
     }
 }

@@ -69,6 +69,11 @@ class Router {
         //get current http method
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
+        if($requestMethod === 'POST' && isset($_POST['_method'])) {
+            // Overide request method with the value of _method, which is hidden and represent "DELETE"
+            $requestMethod = strtoupper($_POST['_method']);
+        }
+
         foreach($this->routes as $route) {
             
             //Split the current uri into segments
