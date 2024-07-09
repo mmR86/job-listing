@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use Framework\Database;
-use App\Controllers\Validation;
+use Framework\Validation;
 
 class ListingController {
     protected $db;
