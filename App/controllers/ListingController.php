@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use Framework\Database;
+use Framework\Session;
 use Framework\Validation;
+use Framework\Authorization;
 
 class ListingController {
     protected $db;
@@ -53,7 +55,7 @@ class ListingController {
         $newListingData = array_intersect_key($_POST, array_flip($allowedFields));
 
         //hardkodano za sada zbog logiranja
-        $newListingData['user_id'] = 1;
+        $newListingData['user_id'] = Session::get('user')['id'];
 
         //filtriramo special karaktere i druga sranja
         $newListingData = array_map('sanitize', $newListingData);
@@ -103,7 +105,7 @@ class ListingController {
             $this->db->query($query, $newListingData);
 
             //Set flash message
-            $_SESSION['success_message'] = 'Listing created succesfully!';
+            Session::setFlashMessage('success_message', 'Listing created succesfully');
 
             redirect('/listings');
         }
@@ -123,10 +125,16 @@ class ListingController {
             return;
         }
 
+        //authorization
+        if(!Authorization::isOwner($listing->user_id)) {
+            Session::setFlashMessage('error_message', 'You are not authorized to delete this listing!');
+            return redirect('/listings/' . $listing->id);
+        }
+
         $this->db->query('DELETE FROM listings WHERE id = :id', $params);
 
         //Set flash message
-        $_SESSION['success_message'] = 'Listing deleted succesfully!';
+        Session::setFlashMessage('success_message', 'Listing deleted succesfully');
 
         redirect('/listings');
 
@@ -145,6 +153,12 @@ class ListingController {
         if(!$listing) {
             ErrorController::notFound('Listing not found!');
             return;
+        }
+
+        //Authorization
+        if(!Authorization::isOwner($listing->user_id)) {
+            Session::setFlashMessage('error_message', 'You are not authorized to update this listing!');
+            return redirect('/listings/' . $listing->id);
         }
 
         loadView('listings/edit', [
@@ -166,6 +180,12 @@ class ListingController {
         if(!$listing) {
             ErrorController::notFound('Listing not found!');
             return;
+        }
+
+        //Authorization
+        if(!Authorization::isOwner($listing->user_id)) {
+            Session::setFlashMessage('error_message', 'You are not authorized to update this listing!');
+            return redirect('/listings/' . $listing->id);
         }
 
         $allowedFields = ['title', 'description', 'salary', 'tags', 'company', 'adress', 'city', 'state', 'phone', 'email', 'requirements', 'benefits'];
@@ -210,7 +230,7 @@ class ListingController {
 
             $this->db->query($updateQuery, $updateValues);
 
-            $_SESSION['success_message'] = 'Listing Updated';
+            Session::setFlashMessage('success_message', 'Listing Updated');
 
             redirect('/listings/' . $id);
         }
