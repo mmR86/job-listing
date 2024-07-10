@@ -5,7 +5,7 @@ loadPartial('nav');
 
     <!-- Post a Job Form Box -->
     <section class="flex justify-center items-center mt-20">
-      <div class="bg-white p-8 rounded-lg shadow-md md:w-600 mx-6">
+      <div class="bg-white p-8 rounded-lg shadow-md w-4/6 md:w-600 mx-6">
         <h2 class="text-4xl text-center font-bold mb-4">Edit Job Listing</h2>
         <!-- <div class="message bg-red-100 p-3 my-3">This is an error message.</div> -->
         
